@@ -34,7 +34,7 @@ install:
 
 run:
 	@echo "Starting application..."
-	@. venv/bin/activate && python backend/main.py
+	@export PYTHONPATH=$(shell pwd) && python3 backend/main.py
 
 test:
 	@echo "Running tests..."
