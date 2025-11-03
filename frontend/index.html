@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local-AI-RAG - Intelligent AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cato-blue': {
+                            50: '#e6f0ff',
+                            100: '#b3d1ff',
+                            200: '#80b3ff',
+                            300: '#4d94ff',
+                            400: '#1a75ff',
+                            500: '#0059e6',
+                            600: '#0047b3',
+                            700: '#003580',
+                            800: '#00234d',
+                            900: '#00111a',
+                        },
+                        'cato-orange': {
+                            50: '#fff4e6',
+                            100: '#ffe0b3',
+                            200: '#ffcc80',
+                            300: '#ffb84d',
+                            400: '#ffa31a',
+                            500: '#ff8f00',
+                            600: '#cc7200',
+                            700: '#995500',
+                            800: '#663900',
+                            900: '#331c00',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-cato-blue-900 to-gray-900 text-gray-100 h-screen overflow-hidden">
+    <!-- Main Container -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-80 bg-gray-900/95 backdrop-blur-xl border-r border-cato-blue-700/30 flex flex-col shadow-2xl">
+            <!-- Header -->
+            <div class="p-6 border-b border-cato-blue-700/30 bg-gradient-to-r from-cato-blue-900/50 to-cato-orange-900/20">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-cato-orange-500 blur-lg opacity-50 animate-pulse"></div>
+                        <svg class="w-10 h-10 text-cato-orange-400 relative z-10" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-cato-blue-400 to-cato-orange-400 bg-clip-text text-transparent">
+                            AI Firewall
+                        </h1>
+                        <p class="text-xs text-cato-blue-300">Scout & RAG Engine</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="p-4 space-y-4 border-b border-cato-blue-700/30">
+                <!-- AI Firewall Toggle -->
+                <div class="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-cato-blue-900/30 to-transparent border border-cato-blue-700/20 hover:border-cato-blue-600/40 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-cato-orange-500/10 rounded-lg">
+                            <svg class="w-5 h-5 text-cato-orange-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-200">AI Firewall</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="firewallToggle" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cato-orange-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cato-orange-500 peer-checked:to-cato-orange-600"></div>
+                    </label>
+                </div>
+
+                <!-- Scout Toggle -->
+                <div class="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-cato-blue-900/30 to-transparent border border-cato-blue-700/20 hover:border-cato-blue-600/40 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-cato-blue-500/10 rounded-lg">
+                            <svg class="w-5 h-5 text-cato-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-200">Search Scout</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="scoutToggle" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cato-blue-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cato-blue-500 peer-checked:to-cato-blue-600"></div>
+                    </label>
+                </div>
+
+                <!-- RAG Toggle -->
+                <div class="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-cato-blue-900/30 to-transparent border border-cato-blue-700/20 hover:border-cato-blue-600/40 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-cato-orange-500/10 rounded-lg">
+                            <svg class="w-5 h-5 text-cato-orange-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-200">Use RAG</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="ragToggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cato-orange-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cato-orange-500 peer-checked:to-cato-orange-600"></div>
+                    </label>
+                </div>
+
+                <!-- New Chat Button -->
+                <button id="newChatBtn" class="w-full bg-gradient-to-r from-cato-blue-600 to-cato-blue-700 hover:from-cato-blue-500 hover:to-cato-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-lg hover:shadow-cato-blue-500/50 transform hover:scale-105 duration-200">
+                    <span class="flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        New Chat
+                    </span>
+                </button>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="p-4 flex-1 overflow-y-auto">
+                <h3 class="text-sm font-bold text-cato-blue-300 mb-3 uppercase tracking-wide">System Metrics</h3>
+                <div id="statsContainer" class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center p-2 rounded bg-cato-blue-900/20">
+                        <span class="text-gray-300">Status</span>
+                        <span id="systemStatus" class="text-cato-orange-400 font-semibold">Loading...</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 rounded bg-cato-blue-900/20">
+                        <span class="text-gray-300">Messages</span>
+                        <span id="messageCount" class="text-cato-blue-400 font-semibold">0</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 rounded bg-cato-blue-900/20">
+                        <span class="text-gray-300">Documents</span>
+                        <span id="docCount" class="text-cato-orange-400 font-semibold">0</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 rounded bg-cato-blue-900/20">
+                        <span class="text-gray-300">Firewall Blocks</span>
+                        <span id="firewallBlocks" class="text-cato-orange-400 font-semibold">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAG Management -->
+            <div class="p-4 border-t border-cato-blue-700/30">
+                <button id="ragManageBtn" class="w-full bg-gradient-to-r from-cato-orange-600/20 to-cato-blue-600/20 hover:from-cato-orange-600/30 hover:to-cato-blue-600/30 border border-cato-blue-600/30 text-cato-blue-200 font-semibold py-2 px-4 rounded-lg transition-all text-sm">
+                    📚 Manage Documents
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Chat Header -->
+            <div class="bg-gray-900/95 backdrop-blur-xl border-b border-cato-blue-700/30 p-4 flex items-center justify-between shadow-lg">
+                <div>
+                    <h2 class="text-xl font-bold bg-gradient-to-r from-cato-blue-400 to-cato-orange-400 bg-clip-text text-transparent">
+                        AI Assistant
+                    </h2>
+                    <p id="sessionInfo" class="text-xs text-cato-blue-300 font-medium">Session: New</p>
+                </div>
+                <div class="flex gap-2">
+                    <span id="firewallStatus" class="px-3 py-1 bg-gradient-to-r from-cato-orange-600/20 to-cato-orange-700/20 border border-cato-orange-500/30 text-cato-orange-300 text-xs rounded-full font-semibold hidden animate-pulse">🛡️ Firewall</span>
+                    <span id="scoutStatus" class="px-3 py-1 bg-gradient-to-r from-cato-blue-600/20 to-cato-blue-700/20 border border-cato-blue-500/30 text-cato-blue-300 text-xs rounded-full font-semibold hidden animate-pulse">🔍 Scout</span>
+                    <span id="ragStatus" class="px-3 py-1 bg-gradient-to-r from-cato-orange-600/20 to-cato-orange-700/20 border border-cato-orange-500/30 text-cato-orange-300 text-xs rounded-full font-semibold hidden animate-pulse">📚 RAG</span>
+                </div>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="messagesContainer" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-transparent to-cato-blue-900/10">
+                <!-- Welcome Message -->
+                <div class="flex gap-3 animate-fadeIn">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-cato-blue-500 to-cato-orange-500 flex items-center justify-center shadow-lg relative">
+                        <div class="absolute inset-0 bg-cato-orange-500 blur-xl opacity-30 animate-pulse"></div>
+                        <svg class="w-6 h-6 text-white relative z-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1 bg-gradient-to-br from-gray-800/80 to-cato-blue-900/30 backdrop-blur-sm rounded-xl p-5 border border-cato-blue-700/30 shadow-lg">
+                        <p class="text-sm font-bold bg-gradient-to-r from-cato-blue-400 to-cato-orange-400 bg-clip-text text-transparent mb-2">
+                            AI Assistant
+                        </p>
+                        <p class="text-gray-200 leading-relaxed">
+                            Welcome! I'm your intelligent AI assistant powered by local models with enterprise-grade safety features. How can I assist you today?
+                        </p>
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-start gap-2 text-sm text-gray-300">
+                                <span class="text-cato-orange-400">🛡️</span>
+                                <span>AI Firewall provides multi-layer content protection</span>
+                            </div>
+                            <div class="flex items-start gap-2 text-sm text-gray-300">
+                                <span class="text-cato-blue-400">🔍</span>
+                                <span>Search Scout augments responses with real-time web data</span>
+                            </div>
+                            <div class="flex items-start gap-2 text-sm text-gray-300">
+                                <span class="text-cato-orange-400">📚</span>
+                                <span>RAG engine retrieves from your knowledge base</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="bg-gray-900/95 backdrop-blur-xl border-t border-cato-blue-700/30 p-4 shadow-2xl">
+                <form id="chatForm" class="flex gap-3">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Ask me anything..."
+                        class="flex-1 bg-gray-800/80 text-white rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-cato-blue-500 border border-cato-blue-700/30 placeholder-gray-400 backdrop-blur-sm"
+                        autocomplete="off"
+                    >
+                    <button 
+                        type="submit" 
+                        id="sendBtn"
+                        class="bg-gradient-to-r from-cato-blue-600 to-cato-orange-600 hover:from-cato-blue-500 hover:to-cato-orange-500 text-white font-semibold px-8 py-3 rounded-xl transition-all flex items-center gap-2 shadow-lg hover:shadow-cato-orange-500/50 transform hover:scale-105 duration-200"
+                    >
+                        <span>Send</span>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                        </svg>
+                    </button>
+                </form>
+                <p class="text-xs text-cato-blue-400 mt-2 text-center font-medium">
+                    🔒 Running locally with Ollama • All data stays on your machine
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RAG Management Modal -->
+    <div id="ragModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden">
+            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
+                <h2 class="text-xl font-bold">Document Management</h2>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <!-- Add Document Form -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Add New Document</h3>
+                    <form id="addDocForm" class="space-y-3">
+                        <input 
+                            type="text" 
+                            id="docTitle" 
+                            placeholder="Document Title"
+                            class="w-full bg-gray-700 text-white rounded px-3 py-2 text-sm"
+                        >
+                        <textarea 
+                            id="docContent" 
+                            placeholder="Document Content"
+                            rows="4"
+                            class="w-full bg-gray-700 text-white rounded px-3 py-2 text-sm"
+                        ></textarea>
+                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded transition-colors">
+                            Add Document
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Document List -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Existing Documents</h3>
+                    <div id="documentList" class="space-y-2 max-h-60 overflow-y-auto">
+                        <!-- Documents will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

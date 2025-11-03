@@ -1,0 +1,89 @@
+# Docker ignore file for Local-AI-RAG
+# Prevents unnecessary files from being copied to Docker image
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+docker-build.sh
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Test files
+tests/
+test_*.py
+*_test.py
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Database files (will be mounted as volumes)
+data/
+*.db
+*.db-journal
+*.db-wal
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Local scripts
+install.sh
+setup.py
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment files (will be provided at runtime)
+.env
+.env.local
+.env.docker
+
+# Local-llm-web folder (if exists)
+local-llm-web/
+
+# Temporary files
+temp/
+tmp/
+*.bak

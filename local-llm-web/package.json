@@ -1,0 +1,26 @@
+{
+  "name": "local-llm-web",
+  "version": "1.0.0",
+  "description": "A web application for interacting with the LiteLLM API in a local LLM environment.",
+  "main": "src/js/app.js",
+  "scripts": {
+    "start": "live-server public",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.0.0",
+    "webpack-cli": "^4.0.0",
+    "live-server": "^1.2.1"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "homepage": "http://localhost:4000",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/local-llm-web.git"
+  }
+}

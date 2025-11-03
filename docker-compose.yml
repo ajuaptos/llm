@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # Local-AI-RAG Application
+  local-ai-rag:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: local-ai-rag
+    ports:
+      - "8000:8000"
+    environment:
+      # Application settings
+      - APP_NAME=Local-AI-RAG
+      - DEBUG=false
+      - HOST=0.0.0.0
+      - PORT=8000
+      
+      # Ollama connection (host network)
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MAIN_MODEL=llama3.2:3b
+      - OLLAMA_SCOUT_MODEL=llama3.2:1b
+      - OLLAMA_TIMEOUT=120
+      
+      # Embeddings
+      - EMBEDDING_PROVIDER=ollama
+      - OLLAMA_EMBEDDING_MODEL=nomic-embed-text
+      - EMBEDDING_DIMENSION=768
+      
+      # Vector Database
+      - VECTOR_DB_TYPE=chromadb
+      - CHROMA_PERSIST_DIRECTORY=/app/data/chroma
+      
+      # Database
+      - DATABASE_PATH=/app/data/app.db
+      
+      # RAG settings
+      - RAG_TOP_K=5
+      - RAG_SIMILARITY_THRESHOLD=0.5
+      - CHUNK_SIZE=500
+      - CHUNK_OVERLAP=50
+      
+      # Scout settings
+      - SCOUT_ENABLED=true
+      - SCOUT_UNCERTAINTY_THRESHOLD=0.6
+      
+      # Firewall settings
+      - FIREWALL_ENABLED=true
+      
+      # Google Search (optional - set your own keys)
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GOOGLE_CSE_ID=${GOOGLE_CSE_ID:-}
+      - SEARCH_MAX_RESULTS=5
+      - USE_WEB_SCRAPING_FALLBACK=true
+      
+    volumes:
+      # Persist data
+      - ./data:/app/data
+      # Mount frontend for development (optional)
+      - ./frontend:/app/frontend
+    
+    extra_hosts:
+      # Allow container to reach host machine for Ollama
+      - "host.docker.internal:host-gateway"
+    
+    restart: unless-stopped
+    
+    networks:
+      - ai-network
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  ai-network:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local

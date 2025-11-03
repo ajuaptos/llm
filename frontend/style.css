@@ -1,0 +1,343 @@
+/* Custom styles for Local-AI-RAG with Cato Networks Branding */
+
+/* Scrollbar styling with Cato colors */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 89, 230, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #0059e6, #ff8f00);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #1a75ff, #ffa31a);
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-slow {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(26, 117, 255, 0.3),
+                    0 0 40px rgba(255, 143, 0, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(26, 117, 255, 0.5),
+                    0 0 60px rgba(255, 143, 0, 0.4);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-out;
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Message input focus effect */
+#messageInput:focus {
+    box-shadow: 0 0 0 3px rgba(0, 89, 230, 0.1),
+                0 0 20px rgba(26, 117, 255, 0.2);
+}
+
+/* Button hover effects with ripple */
+button:not(:disabled) {
+    position: relative;
+    overflow: hidden;
+}
+
+button:not(:disabled)::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+button:not(:disabled):hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Loading dots animation */
+@keyframes loadingDots {
+    0%, 20% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+.loading-dots span {
+    animation: loadingDots 1.4s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gradient-animate {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+}
+
+/* Card hover effect */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 89, 230, 0.2);
+}
+
+/* Selection color */
+::selection {
+    background: rgba(26, 117, 255, 0.3);
+    color: #ffffff;
+}
+
+::-moz-selection {
+    background: rgba(26, 117, 255, 0.3);
+    color: #ffffff;
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+    outline: 2px solid #1a75ff;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Input and textarea focus */
+input:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+/* Smooth transitions */
+* {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, transform, opacity, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* Custom badge styles */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    border-width: 1px;
+}
+
+/* Message link styles */
+a {
+    color: #60a5fa;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #ffa31a;
+    text-decoration: underline;
+}
+
+/* Code block styling */
+pre {
+    background: rgba(0, 89, 230, 0.1);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    border: 1px solid rgba(26, 117, 255, 0.2);
+}
+
+code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: #ffa31a;
+}
+
+/* Toggle switch animations */
+.toggle-switch input:checked + div {
+    transform: scale(1.05);
+}
+
+/* Modal backdrop blur */
+.modal-backdrop {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Loading state */
+.loading {
+    animation: pulse-slow 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sidebar {
+        position: absolute;
+        left: -320px;
+        transition: left 0.3s ease;
+        z-index: 40;
+    }
+    
+    .sidebar.open {
+        left: 0;
+    }
+    
+    /* Adjust font sizes for mobile */
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .sidebar,
+    .input-area,
+    button {
+        display: none !important;
+    }
+    
+    .messages-container {
+        overflow: visible !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* Custom utility classes */
+.glass-effect {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.border-glow {
+    box-shadow: 0 0 10px rgba(26, 117, 255, 0.3);
+}
+
+.text-glow {
+    text-shadow: 0 0 10px rgba(26, 117, 255, 0.5);
+}
+
+/* Pulse animation for active indicators */
+@keyframes pulse-indicator {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+.pulse-indicator {
+    animation: pulse-indicator 2s ease-in-out infinite;
+}
+
+/* Gradient border animation */
+@keyframes rotate-gradient {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(45deg, #0059e6, #ff8f00, #0059e6);
+    background-size: 200% 200%;
+    animation: rotate-gradient 3s linear infinite;
+    z-index: -1;
+}
