@@ -13,8 +13,7 @@ const state = {
 // DOM elements
 const elements = {
     messagesContainer: document.getElementById('messagesContainer'),
-    chatForm: document.getElementById('chatForm'),
-    messageInput: document.getElementById('messageInput'),
+    userInput: document.getElementById('userInput'),
     sendBtn: document.getElementById('sendBtn'),
     firewallToggle: document.getElementById('firewallToggle'),
     scoutToggle: document.getElementById('scoutToggle'),
@@ -49,8 +48,15 @@ async function init() {
 
 // Event listeners
 function setupEventListeners() {
-    // Chat form
-    elements.chatForm.addEventListener('submit', handleSendMessage);
+    // Send button click
+    elements.sendBtn.addEventListener('click', handleSendMessage);
+    
+    // Enter key on input
+    elements.userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleSendMessage(e);
+        }
+    });
     
     // Toggles
     elements.firewallToggle.addEventListener('change', (e) => {
@@ -130,12 +136,12 @@ async function handleSendMessage(e) {
     
     if (state.isLoading) return;
     
-    const message = elements.messageInput.value.trim();
+    const message = elements.userInput.value.trim();
     if (!message) return;
     
     // Add user message to UI
     addMessage('user', message);
-    elements.messageInput.value = '';
+    elements.userInput.value = '';
     
     // Set loading state
     state.isLoading = true;
