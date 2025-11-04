@@ -25,7 +25,12 @@ class Scout:
             "i don't know", "i'm not sure", "i don't have", "i cannot confirm",
             "i'm uncertain", "unclear", "not certain", "may not be accurate",
             "i don't have access to", "i don't have information",
-            "as of my last update", "i cannot provide real-time"
+            "as of my last update", "i cannot provide real-time",
+            "knowledge cutoff", "my training data", "my knowledge", 
+            "i'm a large language model", "i'm an ai", "i'm a text-based",
+            "i cannot access", "i don't have the ability",
+            "suggest some ways", "you can visit", "you can check",
+            "i recommend", "i suggest you check"
         ]
         
         # Current/time-sensitive query patterns
@@ -70,6 +75,11 @@ class Scout:
         )
         
         if needs_current_info:
+            # For time-sensitive queries, always trigger Scout to get fresh data
+            # unless the response is very short and confident (< 100 chars)
+            if len(response) > 100:
+                return True, 0.5, "Query requires current/real-time information"
+            
             # Use LLM to assess if response adequately answers time-sensitive query
             needs_search, confidence = await self._llm_uncertainty_check(query, response)
             if needs_search:
@@ -156,16 +166,18 @@ Assess if web search would improve this response."""
         Returns:
             Dict with augmented response and search results
         """
+        print(f"[SCOUT] Starting search for query: {query}")
+        
         if not self.search.is_configured():
-            return {
-                "augmented_response": original_response,
-                "search_performed": False,
-                "search_results": [],
-                "error": "Search API not configured"
-            }
+            print("[SCOUT] Search API not configured, using fallback")
         
         # Perform web search
         search_results = await self.search.search(query, num_results=5)
+        print(f"[SCOUT] Got {len(search_results)} search results")
+        
+        if search_results:
+            for i, result in enumerate(search_results[:3]):
+                print(f"[SCOUT] Result {i+1}: {result.get('title', 'N/A')[:50]}...")
         
         # Log search
         if session_id:
