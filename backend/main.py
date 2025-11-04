@@ -53,6 +53,7 @@ class ChatRequest(BaseModel):
     message: str
     session_id: Optional[str] = None
     use_rag: bool = False
+    use_scout: bool = True  # Enable Scout by default
     stream: bool = False
     temperature: float = 0.7
 
@@ -182,16 +183,21 @@ async def chat(request: ChatRequest):
     if not output_safe:
         response_text = "I apologize, but I cannot provide that response."
     
-    # Scout analysis (check for uncertainty)
-    scout_result = await scout.enhance_query(
-        query=request.message,
-        response=response_text,
-        session_id=session_id
-    )
+    # Scout analysis (check for uncertainty) - only if enabled by user
+    scout_triggered = False
+    search_results = []
+    final_response = response_text
     
-    final_response = scout_result["response"]
-    scout_triggered = scout_result["scout_triggered"]
-    search_results = scout_result.get("search_results", [])
+    if request.use_scout:
+        scout_result = await scout.enhance_query(
+            query=request.message,
+            response=response_text,
+            session_id=session_id
+        )
+        
+        final_response = scout_result["response"]
+        scout_triggered = scout_result["scout_triggered"]
+        search_results = scout_result.get("search_results", [])
     
     # Log messages
     db.add_message(

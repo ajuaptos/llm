@@ -88,17 +88,17 @@ async function checkHealth() {
         
         if (data.status === 'healthy') {
             elements.systemStatus.textContent = '✓ Online';
-            elements.systemStatus.classList.add('text-cato-orange-400');
+            elements.systemStatus.classList.add('text-brand-green-400');
             elements.systemStatus.classList.remove('text-red-400', 'text-yellow-400');
         } else {
             elements.systemStatus.textContent = '⚠ Degraded';
             elements.systemStatus.classList.add('text-yellow-400');
-            elements.systemStatus.classList.remove('text-cato-orange-400', 'text-red-400');
+            elements.systemStatus.classList.remove('text-brand-green-400', 'text-red-400');
         }
     } catch (error) {
         elements.systemStatus.textContent = '✗ Offline';
         elements.systemStatus.classList.add('text-red-400');
-        elements.systemStatus.classList.remove('text-cato-orange-400', 'text-yellow-400');
+        elements.systemStatus.classList.remove('text-brand-green-400', 'text-yellow-400');
         console.error('Health check failed:', error);
     }
 }
@@ -152,6 +152,7 @@ async function handleSendMessage(e) {
                 message: message,
                 session_id: state.sessionId,
                 use_rag: state.ragEnabled,
+                use_scout: state.scoutEnabled,
                 stream: false,
                 temperature: 0.7
             })
@@ -196,35 +197,35 @@ function addMessage(role, content, metadata = {}) {
     const isError = role === 'error';
     
     const avatarColor = isUser 
-        ? 'bg-gradient-to-br from-cato-orange-600 to-cato-orange-700 shadow-cato-orange-500/50' 
+        ? 'bg-gradient-to-br from-white to-gray-300 shadow-white/50' 
         : isError 
         ? 'bg-gradient-to-br from-red-600 to-red-700' 
-        : 'bg-gradient-to-br from-cato-blue-500 to-cato-orange-500 shadow-cato-blue-500/50';
+        : 'bg-gradient-to-br from-brand-green-500 to-brand-green-700 shadow-brand-green-500/50';
     
     const bgColor = isUser 
-        ? 'bg-gradient-to-br from-cato-orange-900/40 to-cato-orange-800/30 border-cato-orange-700/30' 
-        : 'bg-gradient-to-br from-gray-800/80 to-cato-blue-900/30 border-cato-blue-700/30';
+        ? 'bg-gradient-to-br from-gray-800/80 to-gray-700/50 border-white/10' 
+        : 'bg-gradient-to-br from-gray-800/80 to-black/30 border-brand-green-700/30';
     
     const nameColor = isUser
-        ? 'bg-gradient-to-r from-cato-orange-400 to-cato-orange-500 bg-clip-text text-transparent'
-        : 'bg-gradient-to-r from-cato-blue-400 to-cato-orange-400 bg-clip-text text-transparent';
+        ? 'text-white'
+        : 'bg-gradient-to-r from-brand-green-400 to-white bg-clip-text text-transparent';
     
     let badgesHtml = '';
     if (metadata.scoutTriggered) {
-        badgesHtml += '<span class="inline-flex items-center gap-1 px-2 py-1 bg-cato-blue-900/40 text-cato-blue-300 rounded border border-cato-blue-700/30 text-xs font-semibold">🔍 Scout</span> ';
+        badgesHtml += '<span class="inline-flex items-center gap-1 px-2 py-1 bg-gray-900/40 text-white rounded border border-white/30 text-xs font-semibold">🔍 Scout</span> ';
     }
     if (metadata.ragUsed) {
-        badgesHtml += '<span class="inline-flex items-center gap-1 px-2 py-1 bg-cato-orange-900/40 text-cato-orange-300 rounded border border-cato-orange-700/30 text-xs font-semibold">📚 RAG</span>';
+        badgesHtml += '<span class="inline-flex items-center gap-1 px-2 py-1 bg-brand-green-900/40 text-brand-green-300 rounded border border-brand-green-700/30 text-xs font-semibold">📚 RAG</span>';
     }
     
     let extraContent = '';
     
     // Add search results if present
     if (metadata.searchResults && metadata.searchResults.length > 0) {
-        extraContent += '<div class="mt-3 p-3 bg-cato-blue-900/20 rounded-lg border border-cato-blue-700/30 text-sm"><p class="font-semibold text-cato-blue-300 mb-2">🔍 Search Results:</p><ul class="space-y-2">';
+        extraContent += '<div class="mt-3 p-3 bg-gray-900/20 rounded-lg border border-white/30 text-sm"><p class="font-semibold text-white mb-2">🔍 Search Results:</p><ul class="space-y-2">';
         metadata.searchResults.slice(0, 3).forEach(result => {
             if (!result.error) {
-                extraContent += `<li><a href="${result.link}" target="_blank" class="text-cato-blue-400 hover:text-cato-orange-400 transition-colors underline">${result.title}</a><p class="text-gray-400 text-xs mt-1">${result.snippet}</p></li>`;
+                extraContent += `<li><a href="${result.link}" target="_blank" class="text-brand-green-400 hover:text-white transition-colors underline">${result.title}</a><p class="text-gray-400 text-xs mt-1">${result.snippet}</p></li>`;
             }
         });
         extraContent += '</ul></div>';
@@ -232,16 +233,16 @@ function addMessage(role, content, metadata = {}) {
     
     // Add retrieved documents if present
     if (metadata.retrievedDocs && metadata.retrievedDocs.length > 0) {
-        extraContent += '<div class="mt-3 p-3 bg-cato-orange-900/20 rounded-lg border border-cato-orange-700/30 text-sm"><p class="font-semibold text-cato-orange-300 mb-2">📚 Retrieved Documents:</p><ul class="space-y-1">';
+        extraContent += '<div class="mt-3 p-3 bg-brand-green-900/20 rounded-lg border border-brand-green-700/30 text-sm"><p class="font-semibold text-brand-green-300 mb-2">📚 Retrieved Documents:</p><ul class="space-y-1">';
         metadata.retrievedDocs.slice(0, 3).forEach(doc => {
-            extraContent += `<li class="text-gray-300 text-xs">📄 ${doc.title} <span class="text-cato-orange-400">(${(doc.similarity * 100).toFixed(0)}% match)</span></li>`;
+            extraContent += `<li class="text-gray-300 text-xs">📄 ${doc.title} <span class="text-brand-green-400">(${(doc.similarity * 100).toFixed(0)}% match)</span></li>`;
         });
         extraContent += '</ul></div>';
     }
     
     messageDiv.innerHTML = `
         <div class="flex-shrink-0 w-10 h-10 rounded-xl ${avatarColor} flex items-center justify-center shadow-lg relative">
-            <div class="absolute inset-0 ${isUser ? 'bg-cato-orange-500' : 'bg-cato-blue-500'} blur-lg opacity-20"></div>
+            <div class="absolute inset-0 ${isUser ? 'bg-white' : 'bg-brand-green-500'} blur-lg opacity-20"></div>
             <span class="text-xl relative z-10">${isUser ? '👤' : '🤖'}</span>
         </div>
         <div class="flex-1 ${bgColor} backdrop-blur-sm rounded-xl p-5 border shadow-lg">

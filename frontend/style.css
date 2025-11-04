@@ -1,24 +1,24 @@
-/* Custom styles for Local-AI-RAG with Cato Networks Branding */
+/* Custom styles for Local-AI-RAG with Green, Black, and White Branding */
 
-/* Scrollbar styling with Cato colors */
+/* Scrollbar styling with green colors */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(0, 89, 230, 0.05);
+    background: rgba(0, 230, 118, 0.05);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #0059e6, #ff8f00);
+    background: linear-gradient(135deg, #00e676, #00b359);
     border-radius: 10px;
     transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #1a75ff, #ffa31a);
+    background: linear-gradient(135deg, #00e676, #1aff8e);
 }
 
 /* Smooth scrolling */
@@ -58,12 +58,12 @@ html {
 
 @keyframes glow {
     0%, 100% {
-        box-shadow: 0 0 20px rgba(26, 117, 255, 0.3),
-                    0 0 40px rgba(255, 143, 0, 0.2);
+        box-shadow: 0 0 20px rgba(0, 230, 118, 0.3),
+                    0 0 40px rgba(0, 230, 118, 0.2);
     }
     50% {
-        box-shadow: 0 0 30px rgba(26, 117, 255, 0.5),
-                    0 0 60px rgba(255, 143, 0, 0.4);
+        box-shadow: 0 0 30px rgba(0, 230, 118, 0.5),
+                    0 0 60px rgba(0, 230, 118, 0.4);
     }
 }
 
@@ -80,9 +80,10 @@ html {
 }
 
 /* Message input focus effect */
-#messageInput:focus {
-    box-shadow: 0 0 0 3px rgba(0, 89, 230, 0.1),
-                0 0 20px rgba(26, 117, 255, 0.2);
+#messageInput:focus,
+#userInput:focus {
+    box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.1),
+                0 0 20px rgba(0, 230, 118, 0.2);
 }
 
 /* Button hover effects with ripple */
@@ -159,23 +160,23 @@ button:not(:disabled):hover::before {
 
 .card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 89, 230, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 230, 118, 0.2);
 }
 
 /* Selection color */
 ::selection {
-    background: rgba(26, 117, 255, 0.3);
+    background: rgba(0, 230, 118, 0.3);
     color: #ffffff;
 }
 
 ::-moz-selection {
-    background: rgba(26, 117, 255, 0.3);
+    background: rgba(0, 230, 118, 0.3);
     color: #ffffff;
 }
 
 /* Focus visible for accessibility */
 *:focus-visible {
-    outline: 2px solid #1a75ff;
+    outline: 2px solid #00e676;
     outline-offset: 2px;
     border-radius: 4px;
 }
@@ -208,29 +209,29 @@ button:focus {
 
 /* Message link styles */
 a {
-    color: #60a5fa;
+    color: #00e676;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 a:hover {
-    color: #ffa31a;
+    color: #ffffff;
     text-decoration: underline;
 }
 
 /* Code block styling */
 pre {
-    background: rgba(0, 89, 230, 0.1);
+    background: rgba(0, 230, 118, 0.1);
     padding: 1rem;
     border-radius: 0.75rem;
     overflow-x: auto;
-    border: 1px solid rgba(26, 117, 255, 0.2);
+    border: 1px solid rgba(0, 230, 118, 0.2);
 }
 
 code {
     font-family: 'Courier New', monospace;
     font-size: 0.875rem;
-    color: #ffa31a;
+    color: #00e676;
 }
 
 /* Toggle switch animations */
@@ -298,11 +299,11 @@ code {
 }
 
 .border-glow {
-    box-shadow: 0 0 10px rgba(26, 117, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
 }
 
 .text-glow {
-    text-shadow: 0 0 10px rgba(26, 117, 255, 0.5);
+    text-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
 }
 
 /* Pulse animation for active indicators */
@@ -336,7 +337,7 @@ code {
     position: absolute;
     inset: -2px;
     border-radius: inherit;
-    background: linear-gradient(45deg, #0059e6, #ff8f00, #0059e6);
+    background: linear-gradient(45deg, #00e676, #00b359, #00e676);
     background-size: 200% 200%;
     animation: rotate-gradient 3s linear infinite;
     z-index: -1;
