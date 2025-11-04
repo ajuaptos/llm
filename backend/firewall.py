@@ -74,16 +74,20 @@ class AIFirewall:
                 response.raise_for_status()
                 result = response.json()
                 
-                # Check if AIM Firewall blocked the content
-                # Adjust based on actual API response structure
-                is_safe = result.get("safe", True)
-                threat_detected = result.get("threat_detected", False)
-                reason = result.get("reason") or result.get("threat_type")
+                # Log the API response for debugging
+                print(f"[AIM FIREWALL] API Response: {result}")
                 
-                if threat_detected or not is_safe:
-                    blocked_reason = reason or "Content blocked by AIM Firewall"
-                    self._log_check(content, blocked=True, reason=blocked_reason)
-                    return False, blocked_reason
+                # Parse AIM Firewall API response
+                # required_action: "BLOCK" if threat detected, None if safe
+                required_action = result.get("required_action")
+                analysis_result = result.get("analysis_result", {})
+                
+                if required_action == "BLOCK":
+                    # Content blocked by AIM Firewall
+                    policy_drill_down = analysis_result.get("policy_drill_down", {})
+                    reason = f"AIM Firewall blocked: {policy_drill_down}"
+                    self._log_check(content, blocked=True, reason=reason)
+                    return False, reason
                 
                 # Content is safe
                 self._log_check(content, blocked=False, reason=None)
@@ -151,6 +155,9 @@ class AIFirewall:
                 
                 api_response.raise_for_status()
                 result = api_response.json()
+                
+                # Log the API response for debugging
+                print(f"[AIM FIREWALL] Response Filter API Response: {result}")
                 
                 # Check if AIM Firewall blocked the response
                 is_safe = result.get("safe", True)
